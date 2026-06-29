@@ -36,6 +36,29 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    "disappointed",
+]
+
+# Words worth +2 (stronger positive signal)
+STRONG_POSITIVE_WORDS = [
+    "love", "amazing", "awesome", "excited", "excellent", "fantastic",
+]
+
+# Words worth -2 (stronger negative signal)
+STRONG_NEGATIVE_WORDS = [
+    "hate", "terrible", "awful", "horrible", "disgusting", "miserable",
+]
+
+# Emojis and emoji-style text that signal positive mood (weight +2)
+POSITIVE_EMOJIS = [":)", ":-)", ":d", "😊", "😍", "😎", "🥰", "😂", "❤️", "🎉"]
+
+# Emojis and emoji-style text that signal negative mood (weight -2)
+NEGATIVE_EMOJIS = [":(", ":-(", "😢", "😭", "😡", "💀", "😤", "🙄", "😞"]
+
+# Words that flip the sentiment of the next scored token
+NEGATION_WORDS = [
+    "not", "never", "no", "didn't", "don't", "doesn't",
+    "wasn't", "isn't", "aren't", "won't", "can't", "cannot",
 ]
 
 # ---------------------------------------------------------------------
