@@ -199,3 +199,6 @@ class MoodAnalyzer:
             f"(positive: {positive_hits or '[]'}, "
             f"negative: {negative_hits or '[]'})"
         )
+
+
+# succeeds on some sarcasm phrases, emojis, negation words,repeated characters and differentiates strong positive and negative signals. needs improvement on identifying mixed sentences and slang phrases.
