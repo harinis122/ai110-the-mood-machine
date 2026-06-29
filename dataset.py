@@ -97,6 +97,10 @@ SAMPLE_POSTS = [
     "Excited to see my friends tonight! :)",
     "Just got a promotion at work! Feeling on top of the world! 😎",
     "Ugh, I can't believe I have to work late again. So frustrating. :(",
+    "Sarcasm is the best way to express my feelings. :)",
+    "I'm happy but also a little sad about the news. Mixed emotions.",
+    "This is lowkey fire",
+    "I can't even deal with this right now",
 ]
 
 # Human labels for each post above.
@@ -120,4 +124,8 @@ TRUE_LABELS = [
     "positive",  # "Excited to see my friends tonight! :)"
     "positive",  # "Just got a promotion at work! Feeling on top of the world! 😎"
     "negative",  # "Ugh, I can't believe I have to work late again. So frustrating. :("
+    "negative",  # "Sarcasm is the best way to express my feelings. :)"
+    "mixed",     # "I'm happy but also a little sad about the news. Mixed emotions."
+    "positive",  # "This is lowkey fire"
+    "negative",  # "I can't even deal with this right now"
 ]
