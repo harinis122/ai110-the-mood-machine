@@ -55,6 +55,22 @@ POSITIVE_EMOJIS = [":)", ":-)", ":d", "😊", "😍", "😎", "🥰", "😂", "�
 # Emojis and emoji-style text that signal negative mood (weight -2)
 NEGATIVE_EMOJIS = [":(", ":-(", "😢", "😭", "😡", "💀", "😤", "🙄", "😞"]
 
+# Phrases that signal sarcasm — apply a negative score penalty when matched
+SARCASM_PHRASES = [
+    "absolutely love",
+    "just love",
+    "oh great",
+    "oh perfect",
+    "just perfect",
+    "totally fine",
+    "so fun",
+    "love being",
+    "love having to",
+    "can't wait to",
+    "thanks a lot",
+    "wow amazing",
+]
+
 # Words that flip the sentiment of the next scored token
 NEGATION_WORDS = [
     "not", "never", "no", "didn't", "don't", "doesn't",
@@ -105,29 +121,3 @@ TRUE_LABELS = [
     "positive",  # "Just got a promotion at work! Feeling on top of the world! 😎"
     "negative",  # "Ugh, I can't believe I have to work late again. So frustrating. :("
 ]
-
-# TODO: Add 5-10 more posts and labels.
-#
-# Requirements:
-#   - For every new post you add to SAMPLE_POSTS, you must add one
-#     matching label to TRUE_LABELS.
-#   - SAMPLE_POSTS and TRUE_LABELS must always have the same length.
-#   - Include a variety of language styles, such as:
-#       * Slang ("lowkey", "highkey", "no cap")
-#       * Emojis (":)", ":(", "🥲", "😂", "💀")
-#       * Sarcasm ("I absolutely love getting stuck in traffic")
-#       * Ambiguous or mixed feelings
-#
-# Tips:
-#   - Try to create some examples that are hard to label even for you.
-#   - Make a note of any examples that you and a friend might disagree on.
-#     Those "edge cases" are interesting to inspect for both the rule based
-#     and ML models.
-#
-# Example of how you might extend the lists:
-#
-# SAMPLE_POSTS.append("Lowkey stressed but kind of proud of myself")
-# TRUE_LABELS.append("mixed")
-#
-# Remember to keep them aligned:
-#   len(SAMPLE_POSTS) == len(TRUE_LABELS)

@@ -16,7 +16,7 @@ from dataset import (
     POSITIVE_WORDS, NEGATIVE_WORDS,
     STRONG_POSITIVE_WORDS, STRONG_NEGATIVE_WORDS,
     POSITIVE_EMOJIS, NEGATIVE_EMOJIS,
-    NEGATION_WORDS,
+    NEGATION_WORDS, SARCASM_PHRASES,
 )
 
 
@@ -58,17 +58,22 @@ class MoodAnalyzer:
           - Handle simple emojis separately (":)", ":-(", "🥲", "😂")
           - Normalize repeated characters ("soooo" -> "soo")
         """
-        # Normalize repeated characters: "soooo" -> "soo", "!!!!" -> "!"
-        text = re.sub(r'(.)\1{2,}', r'\1\1', text)
+        # Normalize repeated characters: "happyyyyy" -> "happy", "!!!!" -> "!"
+        text = re.sub(r'(.)\1{2,}', r'\1', text)
 
         cleaned = text.strip().lower()
 
-        # Strip punctuation from each token but keep emoji-style text like ":)"
+        all_emojis = set(POSITIVE_EMOJIS) | set(NEGATIVE_EMOJIS)
+
+        # Strip punctuation from each token but preserve emoji-style text like ":)"
         tokens = []
         for token in cleaned.split():
-            token = token.strip('.,!?;:\'"')
-            if token:
+            if token in all_emojis:
                 tokens.append(token)
+            else:
+                token = token.strip('.,!?;:\'"')
+                if token:
+                    tokens.append(token)
 
         return tokens
 
@@ -78,17 +83,7 @@ class MoodAnalyzer:
 
     def score_text(self, text: str) -> int:
         """
-        Compute a numeric "mood score" for the given text.
-
-        Positive words increase the score.
-        Negative words decrease the score.
-
-        TODO: You must choose AT LEAST ONE modeling improvement to implement.
-        For example:
-          - Handle simple negation such as "not happy" or "not bad"
-          - Count how many times each word appears instead of just presence
-          - Give some words higher weights than others (for example "hate" < "annoyed")
-          - Treat emojis or slang (":)", "lol", "💀") as strong signals
+        Compute a numeric score for a piece of text.
         """
         strong_pos = set(w.lower() for w in STRONG_POSITIVE_WORDS)
         strong_neg = set(w.lower() for w in STRONG_NEGATIVE_WORDS)
@@ -96,19 +91,28 @@ class MoodAnalyzer:
         emoji_neg = set(NEGATIVE_EMOJIS)
         negations = set(NEGATION_WORDS)
 
-        tokens = self.preprocess(text)
         score = 0
+
+        # Check for sarcasm phrases in the raw lowercased text before token scoring
+        lowered = text.lower()
+        for phrase in SARCASM_PHRASES:
+            if phrase in lowered:
+                score -= 3
+                break
+
+        tokens = self.preprocess(text)
         negate = False
 
         for token in tokens:
             if token in negations:
                 negate = True
                 continue
-
+            # treat emojis and strong words as stronger signals
             if token in emoji_pos:
                 weight = 2
             elif token in emoji_neg:
                 weight = -2
+            # treat strong positive and negative words as stronger signals
             elif token in strong_pos:
                 weight = 2
             elif token in strong_neg:
@@ -119,7 +123,7 @@ class MoodAnalyzer:
                 weight = -1
             else:
                 weight = 0
-
+            # handle basic negation: if the previous token was a negation word, flip the weight of this token
             if negate and weight != 0:
                 weight = -weight
                 negate = False
